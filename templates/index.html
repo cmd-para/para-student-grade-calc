@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Grade Calculator</title>
+    <style>
+        body{
+            font-family: Uni Sans, sans-serif;
+            background-color: #2C2D32;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #CFD0D2;
+        }
+
+        hr {
+            background-color: #44454C;
+        }
+
+        .info, .warning, .success {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+            color: #7E7F85;
+        }
+
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="number"] {
+            border: 1px solid #44454C;
+            border-radius: 4px;
+            background-color: #393A41;
+            box-shadow: none;
+            outline: none;
+            width: 200px;
+            padding: 5px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            text-align: center;
+            color: #f0f0f0;
+        }
+
+        input[type="submit"] {
+            border: 1px solid #C4C5C9;
+            border-radius: 4px;
+            width: 200px;
+            padding: 8px;
+            margin-top: 15px;
+            cursor: pointer;
+            background-color: #C4C5C9;
+        }
+
+        .info {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #3498db;
+            font-weight: bold;
+        }
+
+</style>
+</head>
+<body>
+    <h1>Student Grade Calculator</h1>
+
+    <!-- Prelim Section -->
+    <h2>Prelim</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="prelim">
+        Absences: <input type="number" name="prelim_abs" required min="0"><br>
+        Exam: <input type="number" name="prelim_exam" required min="0" max="100"><br>
+        Quizzes: <input type="number" name="prelim_quiz" required min="0" max="100"><br>
+        Requirements: <input type="number" name="prelim_reqs" required min="0" max="100"><br>
+        Recitation: <input type="number" name="prelim_reci" required min="0" max="100"><br>
+        <input type="submit" value="Calculate Prelim">
+    </form>
+    {% if prelim %}
+        <p class="info">{{ prelim }}</p>
+        {% if req_mid_pass and req_fin_pass %}
+        <p class="info">To pass (75% overall), you need at least {{ req_mid_pass }} in Midterm and {{ req_fin_pass }} in Finals.</p>
+        <p class="info">To be Dean’s Lister (90% overall), you need at least {{ req_mid_dl }} in Midterm and {{ req_fin_dl }} in Finals.</p>
+        {% endif %}
+    {% endif %}
+
+    <hr>
+
+    <!-- Midterm Section -->
+    <h2>Midterm</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="midterm">
+        Absences: <input type="number" name="mid_abs" required min="0"><br>
+        Exam: <input type="number" name="mid_exam" required min="0" max="100"><br>
+        Quizzes: <input type="number" name="mid_quiz" required min="0" max="100"><br>
+        Requirements: <input type="number" name="mid_reqs" required min="0" max="100"><br>
+        Recitation: <input type="number" name="mid_reci" required min="0" max="100"><br>
+        <input type="submit" value="Calculate Midterm">
+    </form>
+    {% if midterm %}
+        <p class="info">{{ midterm }}</p>
+        {% if req_fin_pass %}
+        <p class="info">To pass (75% overall), you need at least {{ req_fin_pass }} in Finals.</p>
+        <p class="info">To be Dean’s Lister (90% overall), you need at least {{ req_fin_dl }} in Finals.</p>
+        {% endif %}
+    {% endif %}
+
+    <hr>
+
+    <!-- Finals Section -->
+    <h2>Finals</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="finals">
+        Absences: <input type="number" name="fin_abs" required min="0"><br>
+        Exam: <input type="number" name="fin_exam" required min="0" max="100"><br>
+        Quizzes: <input type="number" name="fin_quiz" required min="0" max="100"><br>
+        Requirements: <input type="number" name="fin_reqs" required min="0" max="100"><br>
+        Recitation: <input type="number" name="fin_reci" required min="0" max="100"><br>
+        <input type="submit" value="Calculate Finals">
+    </form>
+    {% if finals %}
+        <p class="info">{{ finals }}</p>
+    {% endif %}
+
+    <hr>
+
+    <!-- Overall Section -->
+    <h2>Overall</h2>
+    <form method="post">
+        <input type="hidden" name="action" value="overall">
+        <input type="submit" value="Calculate Overall">
+    </form>
+    {% if overall %}
+        {% if "FAILED" in overall %}
+        <p class="warning">{{ overall }}</p>
+        {% elif "DEAN'S LISTER" in overall %}
+        <p class="success">{{ overall }}</p>
+        {% else %}
+        <p class="info">{{ overall }}</p>
+        {% endif %}
+    {% endif %}
+
+    <form method="post">
+    <input type="hidden" name="action" value="reset">
+    <input type="submit" value="Reset Session">
+    </form>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <div style="text-align: center;">by joshparaon 2025 :)</div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+</body>
+</html>
